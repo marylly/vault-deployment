@@ -1,0 +1,20 @@
+listener "tcp" {
+  address     = "127.0.0.1:8200"
+  tls_disable = 1
+}
+
+backend "consul" {
+  address = "127.0.0.1:8500"
+  advertise_addr = "http://127.0.0.1:8200"
+  path = "tmp/vault/"
+  scheme = "http"
+  redirect_addr = "http://127.0.0.1:8200"
+  VAULT_ADDR = "http://127.0.0.1:8200"
+}
+
+storage "consul" {
+  address = "127.0.0.1:8500"
+  path    = "vault"
+}
+
+disable_mlock=true

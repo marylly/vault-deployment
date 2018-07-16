@@ -1,0 +1,18 @@
+#!/sbin/openrc-run
+
+depend() {
+  need localmount
+  after net
+}
+
+start() {
+  ebegin "Starting Consul"
+  start-stop-daemon --background --start --exec /go/bin/consul -- agent -server -config-file=/go/src/github.com/hashicorp/consul/consul.json
+  eend $?
+}
+
+stop() {
+  ebegin "Stopping Consul"
+  start-stop-daemon --stop --exec /go/bin/consul -- leave
+  eend $?
+}
